@@ -1,6 +1,5 @@
 import fetch, {API_READ, API_UPDATE, API_CREATE, API_DELETE} from 'services/api';
 import {call, put, take, race, fork} from 'redux-saga/effects'
-import {createAction} from 'redux-actions';
 
 function* processRequest (payload, getState) {
     const actions = payload.actions;

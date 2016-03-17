@@ -8,7 +8,6 @@ export const API_CREATE = Symbol('API Create');
 export const API_READ = Symbol('API Read');
 export const API_UPDATE = Symbol('API Update');
 export const API_DELETE = Symbol('API Delete');
-export const CALL_API = Symbol('CALL API');
 
 const methods = {
     [API_READ]: 'GET',
@@ -18,7 +17,7 @@ const methods = {
 };
 
 export default function (options) {
-    let {endpoint, method, body, queryParams = '', credentials, headers = {}, schema} = options;
+    let {endpoint, method, body, queryParams = '', credentials, headers = {}, schema, plural} = options;
 
     //api action -> method
     method = methods[method];
@@ -39,14 +38,15 @@ export default function (options) {
 
     //add content headers
     headers['Accept'] = 'application/json';
-    headers['Content-Type'] = 'application/json';
+    // headers['Content-Type'] = 'application/json';
 
     return fetch(endpoint, {method, body, credentials, headers})
         .then(response => {
-                if (response.status == 204) {
-                    return {json: {}, response};
-                }
+            if (plural) {
+                return response.json().then(json => ({json: json.list, response}))
+            } else {
                 return response.json().then(json => ({json, response}))
+                }
             }
         )
         .then(({json, response}) => {

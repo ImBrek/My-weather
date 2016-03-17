@@ -2,7 +2,7 @@ import {get} from 'lodash/object'
 import merge from 'lodash/merge'
 
 const initValue = {
-    towns: {},
+    towns: {}
 }
 
 export default function entities (state = initValue, action) {

@@ -1,28 +1,46 @@
 import {ENTITY_SELECT} from 'actions/entities';
+import {addTown, DASHBOARD} from 'actions/dashboard'
+import {TOWN} from 'actions/town'
 
 export default function (state = {
     isFetching: false,
     selectedEntity: {},
+    towns: []
 }, action) {
     switch (action.type) {
-        // case ORDER_TREE.READ.REQUEST:
-        //     return Object.assign({}, state, {
-        //         isFetching: true
-        //     });
-        // case ORDER_TREE.READ.SUCCESS:
-        //     return Object.assign({},state,{
-        //         isFetching: false,
-        //         orders:action.payload.response.result
-        //     });
-        //  case ORDER_TREE.READ.FAILURE:
-        //     return Object.assign({}, state, {
-        //         isFetching: false
-        //     });
-        // case ENTITY_SELECT:
-        //     return Object.assign({}, state, {
-        //         selectedEntity: action.payload
-        //     })
-
+        case DASHBOARD.TOWN.ADD:
+            if (state.towns.indexOf(action.payload) == -1) {
+                return Object.assign({}, state, {
+                    towns: [...state.towns, action.payload]
+                });
+            } else {
+                return state;
+            }
+        case DASHBOARD.TOWN.DELETE:
+            return Object.assign({}, state, {
+                towns: state.towns.reduce((result, row)=> {
+                    if (row != action.payload) {
+                        result.push(row)
+                    }
+                    return result;
+                }, [])
+            });
+        case DASHBOARD.TOWN.INIT:
+            return Object.assign({}, state, {
+                towns: action.payload
+            });
+        case TOWN.READ.REQUEST:
+            return Object.assign({}, state, {
+                isFetching: true
+            });
+        case TOWN.READ.SUCCESS:
+            return Object.assign({}, state, {
+                isFetching: false
+            });
+        case TOWN.READ.FAILURE:
+            return Object.assign({}, state, {
+                isFetching: false
+            });
         default:
             return state;
 

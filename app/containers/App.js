@@ -15,7 +15,6 @@ export default class App extends Component {
         const {children} = this.props;
         return (
             <div>
-                HelloWorld
                 {children || <MainPage/>}
             </div>
         )
