@@ -4,12 +4,18 @@ var webpack = require('webpack');
 module.exports = {
     devtool: 'source-map',
     entry: [
-        './src/index'
+        'babel-polyfill',
+        'webpack-hot-middleware/client',
+        './app/index.js'
     ],
     output: {
         path: path.join(__dirname, 'dist'),
         filename: 'bundle.js',
-        //publicPath: '/static/'
+        publicPath: '/dist'
+    },
+    resolve: {
+        root: path.resolve('./app'),
+        extensions: ['', '.js']
     },
     plugins: [
         new webpack.optimize.OccurenceOrderPlugin(),
@@ -25,10 +31,16 @@ module.exports = {
         })
     ],
     module: {
-        loaders: [{
-            test: /\.js$/,
-            loaders: ['babel'],
-            include: path.join(__dirname, 'src')
-        }]
+        loaders: [
+            {test: /\.js$/, loaders: ['babel'], exclude: /node_modules/},
+            {test: /\.json$/, loader: 'json'},
+            {test: /\.css$/, loader: 'style-loader!css-loader'},
+            {
+                test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: 'url-loader?limit=10000&minetype=application/font-woff'
+            },
+            {test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader'}
+
+        ]
     }
 };

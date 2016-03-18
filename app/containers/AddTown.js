@@ -124,7 +124,7 @@ class FindTownForm extends Component {
                             <i className={classnames("fa",{"fa-spinner fa-spin":submitting})}></i> Find
                         </button>
                         <button type="button" className="btn btn-default" onClick={()=>{this.props.getPosition()}}>
-                            Use coordinates
+                            Use my coordinates
                         </button>
                         <Link to={`/`}>
                             <button type="button" className="btn btn-default">
